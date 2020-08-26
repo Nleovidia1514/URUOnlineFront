@@ -1,0 +1,12 @@
+.auth-background {
+  background: url('../../assets/images/bg-img1.jpg');
+  background-repeat: no-repeat;
+  background-size: cover;
+  align-items: center;
+}
+
+.form-panel {
+    align-self: center;
+    background-color: white;
+    color: black;
+}

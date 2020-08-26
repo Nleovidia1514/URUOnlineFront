@@ -1,10 +1,11 @@
-.App {
-  text-align: center;
+.main-container {
+  height: 100vh;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.loader-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 @media (prefers-reduced-motion: no-preference) {

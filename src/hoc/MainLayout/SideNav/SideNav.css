@@ -1,0 +1,10 @@
+.sidenav {
+    height: 100%;
+    position: relative!important;
+}
+
+.collapse-btn {
+    position: absolute!important;
+    bottom: 0;
+    right: 0;
+}
