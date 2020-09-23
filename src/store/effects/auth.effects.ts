@@ -6,7 +6,6 @@ import { authActions } from '../actions/index';
 export function* checkAuthenticatedEffect(action: Action) {
   try {
     const { data } = yield api.get('/auth');
-    console.log(data);
     yield put(authActions.checkAuthenticatedSuccessAction(data));
   } catch (error) {
     yield put(authActions.checkAuthenticatedFailAction());
@@ -16,7 +15,6 @@ export function* checkAuthenticatedEffect(action: Action) {
 export function* loginUserEffect(action: Action) {
   try {
     const { data } = yield api.post('/auth/login', action.payload);
-    console.log(data);
     yield put(authActions.loginUserSuccessAction(data));
   } catch (error) {
     console.log(error);
@@ -33,7 +31,6 @@ export function* loginUserEffect(action: Action) {
 export function* registerUserEffect(action: Action) {
   try {
     const { data } = yield api.post('/auth/register', action.payload);
-    console.log(data);
     yield put(authActions.registerUserSuccessAction(data));
   } catch (error) {
     yield put(

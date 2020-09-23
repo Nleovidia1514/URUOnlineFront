@@ -3,9 +3,9 @@ export interface User {
     profileImg?: string;
     rating?: number;
     isActive?: boolean;
-    identification: number;
-    birthdate: Date;
-    email: string;
-    name: string;
-    lastname: string;
+    identification?: number;
+    birthdate?: Date;
+    email?: string;
+    name?: string;
+    lastname?: string;
 }

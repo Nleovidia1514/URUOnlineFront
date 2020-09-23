@@ -1,4 +1,4 @@
-import React, { SyntheticEvent } from 'react';
+import React from 'react';
 import { Navbar, Nav, Icon, Dropdown, NavbarProps } from 'rsuite';
 
 import './Navbar.css';
@@ -15,7 +15,6 @@ export default (props: NavbarProps) => {
   }
   
   const currentUser: User | null = useSelector((state: AppState) => state.auth.currentUser);
-  console.log(currentUser);
   return (
     <Navbar {...props}>
       <Navbar.Header>

@@ -9,7 +9,7 @@ import { createStore, compose, applyMiddleware } from 'redux';
 import createSagaMiddleware from 'redux-saga';
 
 import reducer from './store/reducers';
-import { watchAuth } from './store/effects';
+import { watchAuth, watchPosts } from './store/effects';
 
 
 const composeEnhancers = process.env.NODE_ENV === 'development' ? (window as any).__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ : null || compose;
@@ -20,6 +20,7 @@ const store = createStore(reducer, composeEnhancers(
 ));
 
 sagaMiddleware.run(watchAuth);
+sagaMiddleware.run(watchPosts);
 
 
 ReactDOM.render(

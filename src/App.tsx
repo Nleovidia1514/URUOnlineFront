@@ -9,13 +9,15 @@ import { Switch, Route, Redirect } from 'react-router-dom';
 import AuthLayout from './hoc/AuthLayout/AuthLayout';
 import { Loader } from 'rsuite';
 import { AppState } from './store/reducers';
+import 'moment/locale/es';
+import moment from 'moment';
 
 function App() {
   const dispatch = useDispatch();
   const checked = useSelector(
     (state: AppState) => state.auth.authenticatedChecked
   );
-
+  moment.locale('es');
   useEffect(() => {
     dispatch(checkAuthenticatedAction());
   }, [dispatch]);
@@ -27,12 +29,12 @@ function App() {
     <div className='App'>
       <div className={mainclasses.join(' ')}>
         {!checked ? (
-          <Loader size='lg' content="Cargando..." />
+          <Loader size='lg' content='Cargando...' />
         ) : (
           <Switch>
-            <Redirect exact path="/" to="/auth/login" />
+            <Redirect exact path='/' to='/auth/login' />
             <Route path='/auth' component={AuthLayout} />
-            <Route path='/app' exact component={MainLayout} />
+            <Route path='/app' component={MainLayout} />
           </Switch>
         )}
       </div>

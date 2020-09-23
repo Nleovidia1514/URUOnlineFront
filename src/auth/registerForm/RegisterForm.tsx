@@ -14,7 +14,7 @@ const model = Schema.Model({
     'Por favor ingrese un numero de cedula valido.'
   ).isRequired('Este campo es obligatorio.'),
   email: StringType()
-    .isRequired()
+    .isRequired('Este campo es obligatorio.')
     .isEmail('El formato no es correcto.')
     .maxLength(100),
   name: StringType()
