@@ -43,10 +43,10 @@ export default ({ post }: PostSummaryProps) => {
         colspan={4}
         style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center' }}
       >
-        <Avatar src={post.owner.profileImg} />
+        <Avatar src={post.owner?.profileImg} />
 
         <span>
-          {post.owner.name} - <Badge content={post.owner.rating} />
+          {post.owner?.name} - <Badge content={post.owner?.rating} />
         </span>
         <span>{moment(post.createdDate).fromNow()}</span>
       </FlexboxGrid.Item>
