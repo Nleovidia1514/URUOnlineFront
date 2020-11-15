@@ -3,6 +3,7 @@ import { Icon, IconButton, Input, Tag, TagGroup } from 'rsuite';
 
 interface DynamicTagProps {
     onChangeTags: (tags: string[]) => void;
+    tags: string[]
 }
 
 export default class extends React.Component<DynamicTagProps> {
@@ -14,10 +15,18 @@ export default class extends React.Component<DynamicTagProps> {
   input: any = null;
   constructor(props: DynamicTagProps) {
     super(props);
+
     this.handleButtonClick = this.handleButtonClick.bind(this);
     this.handleInputChange = this.handleInputChange.bind(this);
     this.handleInputConfirm = this.handleInputConfirm.bind(this);
   }
+
+  componentDidMount() {
+    this.setState({
+      tags: this.props.tags
+    });
+  }
+
   handleButtonClick() {
     this.setState(
       {

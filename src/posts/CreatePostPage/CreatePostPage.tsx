@@ -1,5 +1,6 @@
-import React, { useCallback, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useParams } from 'react-router-dom';
 import { Button, Container, ControlLabel, Form, Schema } from 'rsuite';
 import DynamicTag from '../../core/components/controls/DynamicTag';
 import Input from '../../core/components/controls/Input';
@@ -19,19 +20,48 @@ const model = Schema.Model({
 });
 
 export default () => {
+  let form = useRef<any>(null);
   const dispatch = useDispatch();
+
   const loading = useSelector((state: AppState) => state.posts.loading);
+  const currentPost = useSelector((state: AppState) => state.posts.currentPost);
+  const { id } = useParams() as any;
+
   const [formValue, setFormValue] = useState({
     title: '',
     content: '',
-    tags: [''],
+    tags: [] as string[],
   });
-  let form = useRef<any>(null);
+
   const onPostSubmit = useCallback(() => {
     if (form.current.check()) {
-      dispatch(postActions.createPostAction(formValue));
+      if (id) {
+        dispatch(postActions.updatePostAction({
+          ...currentPost,
+          ...formValue
+        }));
+      } else {
+        dispatch(postActions.createPostAction(formValue));
+      }
     }
-  }, [dispatch, formValue]);
+  }, [dispatch, currentPost, formValue, id]);
+
+  useEffect(() => {
+    if (id) {
+      dispatch(postActions.searchPostByIdAction(id));
+    }
+  }, [dispatch, id]);
+
+  useEffect(() => {
+    if (currentPost) {
+      setFormValue(currentPost as any);
+    }
+  }, [currentPost])
+
+  if (id && !currentPost) {
+    return <></>;
+  } 
+
   return (
     <Container>
       <Form
@@ -44,6 +74,7 @@ export default () => {
         <Input label='Titulo' name='title' />
 
         <PostEditor
+          post={currentPost}
           onEditorChange={(content: string) =>
             setFormValue({ ...formValue, content })
           }
@@ -53,7 +84,7 @@ export default () => {
           Etiquetas (Minimo 3*)
         </ControlLabel>
         <br></br>
-        <DynamicTag onChangeTags={(tags) => setFormValue({ ...formValue, tags })} />
+        <DynamicTag tags={formValue.tags} onChangeTags={(tags) => setFormValue({ ...formValue, tags })} />
         <br></br>
         <Button
           loading={loading}

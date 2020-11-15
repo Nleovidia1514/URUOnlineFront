@@ -21,10 +21,10 @@ export default (props: SideNavProps) => {
         <Sidenav.Body>
           <Nav>
             <Nav.Item eventKey='1' icon={<Icon icon='dashboard' />}>
-              Dashboard
+              Posts
             </Nav.Item>
             <Nav.Item eventKey='2' icon={<Icon icon='group' />}>
-              User Group
+              Asignaciones
             </Nav.Item>
             <Dropdown
               placement='rightStart'

@@ -9,11 +9,16 @@ export default () => {
     (state: AppState) => state.posts.currentPostComments
   );
   return (
-    <Container>
-      <h3>Comentarios</h3>
-      {comments.map((com) => (
-        <PostComment key={com._id} comment={com}></PostComment>
-      ))}
-    </Container>
+    <>
+      {comments.length >= 1 ? (
+        <Container>
+          <h4>Comentarios</h4>
+          <br />
+          {comments.map((com) => (
+            <PostComment key={com._id} comment={com}></PostComment>
+          ))}
+        </Container>
+      ) : <span>Nadie ha comentado aun, sé el primero en hacerlo!</span>}
+    </>
   );
 };

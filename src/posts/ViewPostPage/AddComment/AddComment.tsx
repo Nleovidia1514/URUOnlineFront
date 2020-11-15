@@ -38,7 +38,8 @@ export default () => {
 
   return (
     <Container>
-      <h3>Agregar Comentario</h3>
+      <h4>Agregar Comentario</h4> 
+      <br />
       <Form
         ref={form}
         fluid

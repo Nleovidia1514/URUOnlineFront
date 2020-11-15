@@ -11,12 +11,11 @@ import createSagaMiddleware from 'redux-saga';
 import reducer from './store/reducers';
 import { watchAuth, watchPosts } from './store/effects';
 
-
 const composeEnhancers = process.env.NODE_ENV === 'development' ? (window as any).__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ : null || compose;
 const sagaMiddleware = createSagaMiddleware();
 
 const store = createStore(reducer, composeEnhancers(
-  applyMiddleware(sagaMiddleware)
+  applyMiddleware(sagaMiddleware),
 ));
 
 sagaMiddleware.run(watchAuth);

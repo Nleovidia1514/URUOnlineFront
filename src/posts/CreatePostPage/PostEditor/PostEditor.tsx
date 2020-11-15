@@ -1,16 +1,18 @@
 import React from 'react';
 import { Editor } from '@tinymce/tinymce-react';
 import environment from '../../../core/environment';
+import { Post } from '../../../core/models/Post.model';
 
 interface PostEditorProps {
   onEditorChange: (content: string) => void;
+  post?: Post | null;
 }
 
 export default (props: PostEditorProps) => {
   return (
     <Editor
       apiKey={environment.tinyApiKey}
-      initialValue='<p>This is the initial content of the editor</p>'
+      initialValue={props.post ? props.post.content : '<p>This is the initial content of the editor</p>'}
       init={{
         height: 300,
         menubar: false,

@@ -31,7 +31,7 @@ export default ({ post }: PostSummaryProps) => {
           <h5>{post.title}</h5>
         </Link>
         <br />
-        <p>{post.content}</p>
+        <p dangerouslySetInnerHTML={{ __html: post.content}}></p>
         <br />
         <TagGroup>
           {post.tags.map((tag, index) => (

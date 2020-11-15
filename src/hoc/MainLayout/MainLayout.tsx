@@ -44,7 +44,7 @@ export default (props: RouteComponentProps<MainLayoutProps>) => {
             <Route path={props.match.path + '/posts'} exact component={PostList}/>
             <Route path={props.match.path + '/posts/create'} exact component={CreatePostPage}/>
             <Route path={props.match.path + '/posts/:id'} exact component={ViewPostPage}/>
-            <Route path={props.match.path + '/posts/:id/edit'} exact component={ViewPostPage}/>
+            <Route path={props.match.path + '/posts/:id/edit'} exact component={CreatePostPage}/>
             <Redirect from={props.match.path + '/'} to={props.match.path + '/posts'} />
           </Switch>
         </Container>

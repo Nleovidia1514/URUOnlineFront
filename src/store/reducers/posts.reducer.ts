@@ -10,7 +10,7 @@ export interface PostsState {
   posts: Post[];
   currentPost: Post | null;
   currentPostComments: Comment[];
-  paging: PagingInfo | null; 
+  paging: PagingInfo | null;
 }
 
 const initialState: PostsState = {
@@ -18,7 +18,7 @@ const initialState: PostsState = {
   posts: [],
   currentPost: null,
   currentPostComments: [],
-  paging: null
+  paging: null,
 };
 
 export const postsReducer = (
@@ -31,7 +31,7 @@ export const postsReducer = (
         ...state,
         posts: [],
         loading: true,
-        paging: null
+        paging: null,
       };
     case postActions.SEARCH_POSTS_SUCCESS:
       const payload: Aggregator<Post> = action.payload;
@@ -39,7 +39,7 @@ export const postsReducer = (
         ...state,
         loading: false,
         posts: payload.docs,
-        paging: payload
+        paging: payload,
       };
     case postActions.SEARCH_POST_BY_ID:
       return {
@@ -52,6 +52,12 @@ export const postsReducer = (
         ...state,
         loading: false,
         currentPost: action.payload,
+      };
+
+    case postActions.CREATE_POST_SUCESS:
+      return {
+        ...state,
+        loading: false,
       };
     case postActions.UPVOTE_POST_SUCCESS:
       return {
