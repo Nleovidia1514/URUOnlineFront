@@ -10,9 +10,9 @@ const { StringType, NumberType } = Schema.Types;
 const model = Schema.Model({
   identification: NumberType(
     'Por favor ingrese un numero de cedula valido.'
-  ).isRequiredOrEmpty('Este campo es obligatorio.'),
+  ).isRequired('Este campo es obligatorio.'),
   password: StringType('Por favor ingrese una contraseña valida.')
-    .isRequiredOrEmpty('Este campo es obligatorio.')
+    .isRequired('Este campo es obligatorio.')
     .minLength(6),
 });
 
@@ -27,7 +27,6 @@ export default () => {
     state.auth.error ? state.auth.error : null
   );
   let form = useRef<any>(null);
-  console.log(error);
   const submitLogin = useCallback(() => {
     if (form.current.check()) {
       dispatch(loginUserAction(formValue));

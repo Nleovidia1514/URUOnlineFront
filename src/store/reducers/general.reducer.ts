@@ -3,10 +3,12 @@ import { Action } from '../actions/action.model';
 
 export interface GeneralState {
   redirectUrl: string;
+  loading: boolean;
 }
 
 const initialState: GeneralState = {
   redirectUrl: '',
+  loading: false,
 };
 
 export const generalReducer = (

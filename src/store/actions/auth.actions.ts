@@ -32,6 +32,36 @@ export const loginUserFailAction = (error: ApiError) => ({
   payload: error,
 });
 
+export const RESET_VERIFIED = 'RESET_VERIFIED';
+export const resetVerifiedAction = (payload: boolean): Action => ({
+  type: RESET_VERIFIED,
+  payload
+});
+
+export const SEND_VERIFICATION_CODE = 'SEND_VERIFICATION_CODE';
+export const sendVerificationCodeAction = (payload: string): Action => ({
+  type: SEND_VERIFICATION_CODE,
+  payload
+});
+
+export const SEND_VERIFICATION_CODE_SUCCESS = 'SEND_VERIFICATION_CODE_SUCCESS';
+export const sendVerificationCodeSuccessAction = (payload: string): Action => ({
+  type: SEND_VERIFICATION_CODE_SUCCESS,
+  payload
+});
+
+export const VERIFY_CODE = 'VERIFY_CODE';
+export const verifiyCodeAction = (payload: { verificationCode: string, phoneNumber: string }): Action => ({
+  type: VERIFY_CODE,
+  payload
+});
+
+export const VERIFY_CODE_SUCCESS = 'VERIFY_CODE_SUCCESS';
+export const verifyCodeSuccessAction = (payload: string): Action => ({
+  type: VERIFY_CODE_SUCCESS,
+  payload 
+});
+
 export const REGISTER_USER = 'REGISTER_USER';
 export const registerUserAction = (payload: User): Action => ({
   type: REGISTER_USER,
@@ -42,6 +72,18 @@ export const REGISTER_USER_SUCCESS = 'REGISTER_USER_SUCCESS';
 export const registerUserSuccessAction = (payload: User): Action => ({
   type: REGISTER_USER_SUCCESS,
   payload,
+});
+
+export const UPDATE_USER = 'UPDATE_USER';
+export const updateUserAction = (payload: User): Action => ({
+  type: UPDATE_USER,
+  payload
+});
+
+export const UPDATE_USER_SUCCESS = 'UPDATE_USER_SUCCESS';
+export const updateUserSuccessAction = (payload: User): Action => ({
+  type: UPDATE_USER_SUCCESS,
+  payload
 });
 
 export const LOGOUT_USER = 'LOGOUT_USER';
@@ -96,6 +138,19 @@ export const resetPasswordSuccessAction = (payload: {
 }): Action => ({
   type: RESET_PASSWORD_SUCCESS,
   payload,
+});
+
+
+export const SEARCH_USERS = 'SEARCH_USERS';
+export const searchUsersAction = (payload: string): Action => ({
+    type: SEARCH_USERS,
+    payload
+});
+
+export const SEARCH_USERS_SUCCESS = 'SEARCH_USERS_SUCCESS';
+export const searchUsersActionSuccess = (payload: User[]): Action => ({
+    type: SEARCH_USERS_SUCCESS,
+    payload
 });
 
 export const AUTH_ACTION_FAIL = 'AUTH_ACTION_FAIL';

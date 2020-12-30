@@ -5,7 +5,11 @@ export interface User {
     isActive?: boolean;
     identification?: number;
     birthdate?: Date;
+    type?: string;
+    phoneNumber?: string;
     email?: string;
     name?: string;
     lastname?: string;
+    githubLink?: string;
+    mfa?: boolean;
 }

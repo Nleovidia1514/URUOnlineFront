@@ -1,28 +1,43 @@
 import { takeEvery } from 'redux-saga/effects';
-import { authActions, postActions } from '../actions';
-import { checkAuthenticatedEffect, loginUserEffect, registerUserEffect, logoutUserEffect, sendRecoveryCodeEffect, resetPasswordEffect, submitRecoveryCodeEffect } from './auth.effects';
-import { createCommentEffect, createPostEffect, deletePostEffect, downvoteCommentEffect, downvotePostEffect, searchCommentsEffect, searchPostByIdEffect, searchPostsEffect, updatePost, upvoteCommentEffect, upvotePostEffect } from './post.effects';
+import authEffects from './auth.effects';
+import courseEffects from './course.effects';
+import examEffects from './exam.effects';
+import generalEffects from './general.effects';
+import postEffects from './post.effects';
 
 export function* watchAuth() {
-  yield takeEvery(authActions.CHECK_AUTHENTICATED, checkAuthenticatedEffect);
-  yield takeEvery(authActions.LOGIN_USER, loginUserEffect);
-  yield takeEvery(authActions.REGISTER_USER, registerUserEffect);
-  yield takeEvery(authActions.LOGOUT_USER, logoutUserEffect);
-  yield takeEvery(authActions.SEND_RECOVERY_CODE, sendRecoveryCodeEffect);
-  yield takeEvery(authActions.SUBMIT_RECOVERY_CODE, submitRecoveryCodeEffect);
-  yield takeEvery(authActions.RESET_PASSWORD, resetPasswordEffect);
+  for (let i = 0; i < authEffects.length; i++) {
+    const el = authEffects[i];
+    yield takeEvery(el.action, el.effect);
+  }
 }
 
 export function* watchPosts() {
-  yield takeEvery(postActions.SEARCH_POSTS, searchPostsEffect);
-  yield takeEvery(postActions.SEARCH_POST_BY_ID, searchPostByIdEffect)
-  yield takeEvery(postActions.CREATE_POST, createPostEffect);
-  yield takeEvery(postActions.UPDATE_POST, updatePost);
-  yield takeEvery(postActions.DELETE_POST, deletePostEffect);
-  yield takeEvery(postActions.UPVOTE_POST, upvotePostEffect);
-  yield takeEvery(postActions.DOWNVOTE_POST, downvotePostEffect);
-  yield takeEvery(postActions.SEARCH_COMMENTS, searchCommentsEffect);
-  yield takeEvery(postActions.CREATE_COMMENT, createCommentEffect);
-  yield takeEvery(postActions.UPVOTE_COMMENT, upvoteCommentEffect);
-  yield takeEvery(postActions.DOWNVOTE_COMMENT, downvoteCommentEffect);
+  for (let i = 0; i < postEffects.length; i++) {
+    const el = postEffects[i];
+    yield takeEvery(el.action, el.effect);
+  }
 }
+
+export function* watchCourses() {
+  for (let i = 0; i < courseEffects.length; i++) {
+    const el = courseEffects[i];
+    yield takeEvery(el.action, el.effect);
+  }
+}
+
+export function* watchGeneral() {
+  for (let i = 0; i < generalEffects.length; i++) {
+    const el = generalEffects[i];
+    yield takeEvery(el.action, el.effect);
+  }
+}
+
+export function* watchExams() {
+  for (let i = 0; i < examEffects.length; i++) {
+    const el = examEffects[i];
+    yield takeEvery(el.action, el.effect);
+  }
+}
+
+export const watchers = [watchAuth, watchPosts, watchCourses, watchGeneral, watchExams];

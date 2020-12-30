@@ -127,8 +127,6 @@ export const postsReducer = (
         votes: (updated[i]?.votes as number) - 1,
         voted: false,
       };
-      console.log(i);
-      console.log(updated);
       return {
         ...state,
         currentPostComments: updated,

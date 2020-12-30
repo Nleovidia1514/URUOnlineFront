@@ -9,24 +9,32 @@ import { createStore, compose, applyMiddleware } from 'redux';
 import createSagaMiddleware from 'redux-saga';
 
 import reducer from './store/reducers';
-import { watchAuth, watchPosts } from './store/effects';
+import { watchers } from './store/effects';
+import { IntlProvider } from 'rsuite';
+import esES from 'rsuite/lib/IntlProvider/locales/es_ES';
 
-const composeEnhancers = process.env.NODE_ENV === 'development' ? (window as any).__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ : null || compose;
+const composeEnhancers =
+  process.env.NODE_ENV === 'development'
+    ? (window as any).__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
+    : null || compose;
 const sagaMiddleware = createSagaMiddleware();
 
-const store = createStore(reducer, composeEnhancers(
-  applyMiddleware(sagaMiddleware),
-));
+const store = createStore(
+  reducer,
+  composeEnhancers(applyMiddleware(sagaMiddleware))
+);
 
-sagaMiddleware.run(watchAuth);
-sagaMiddleware.run(watchPosts);
-
+watchers.forEach((watcher) => {
+  sagaMiddleware.run(watcher);
+});
 
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
       <BrowserRouter>
-        <App />
+        <IntlProvider locale={esES}>
+          <App />
+        </IntlProvider>
       </BrowserRouter>
     </Provider>
   </React.StrictMode>,

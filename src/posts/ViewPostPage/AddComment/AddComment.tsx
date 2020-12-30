@@ -7,7 +7,6 @@ import PostEditor from '../../CreatePostPage/PostEditor/PostEditor';
 
 const { StringType } = Schema.Types;
 const model = Schema.Model({
-  postId: StringType('Este campo es requerido.').isRequired(),
   content: StringType('Por favor ingrese una un contenido valido.')
     .isRequiredOrEmpty('Este campo es obligatorio.')
     .minLength(6),
@@ -18,23 +17,23 @@ export default () => {
   const post = useSelector((state: AppState) => state.posts.currentPost);
   const user = useSelector((state: AppState) => state.auth.currentUser);
   const [formValue, setFormValue] = useState({
-    postId: post?._id ? post._id : '',
     content: '',
   });
   let form = useRef<any>(null);
 
   const sendComment = useCallback(() => {
-    if (form.current.check()) {
+    if (form.current.check() && post) {
       dispatch(
         postActions.createCommentAction({
           ...formValue,
+          postId: post?._id as string,
           votes: 0,
           createdDate: new Date(),
           owner: user ?? undefined,
         })
       );
     }
-  }, [formValue, dispatch, user]);
+  }, [formValue, dispatch, user, post]);
 
   return (
     <Container>

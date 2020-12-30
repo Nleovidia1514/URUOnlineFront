@@ -33,9 +33,39 @@ export function* registerUserEffect(action: Action) {
     const { data } = yield api.post('/auth/register', action.payload);
     yield put(authActions.registerUserSuccessAction(data));
   } catch (error) {
-    yield put(
-      authActions.authActionFail(error.response.data)
-    );
+    yield put(authActions.authActionFail(error));
+  }
+}
+
+export function* sendVerificationCodeEffect(action: Action) {
+  try {
+    const { data } = yield api.post('/auth/sendCode', {
+      phoneNumber: action.payload
+    });
+    yield put(authActions.sendVerificationCodeSuccessAction(data));
+  } catch (error) {
+    yield put(authActions.authActionFail(error));
+  }
+}
+
+export function* verifyCodeEffect(action: Action) {
+  try {
+    const { data } = yield api.post('/auth/verifyCode', {
+      verificationCode: action.payload.verificationCode,
+      phoneNumber: action.payload.phoneNumber
+    });
+    yield put(authActions.verifyCodeSuccessAction(data));
+  } catch (error) {
+    yield put(authActions.authActionFail(error));
+  } 
+}
+
+export function* updateUserEffect(action: Action) {
+  try {
+    const { data } = yield api.put('/auth/users', action.payload);
+    yield put(authActions.updateUserSuccessAction(data));
+  } catch (error) {
+    yield put(authActions.authActionFail(error));
   }
 }
 
@@ -59,9 +89,7 @@ export function* sendRecoveryCodeEffect(action: Action) {
     const { data } = yield api.get('/auth/passResetCode?id=' + action.payload);
     yield put(authActions.sendRecoveryCodeSuccessAction(data));
   } catch (error) {
-    yield put(
-      authActions.authActionFail(error.response.data)
-    );
+    yield put(authActions.authActionFail(error.response.data));
   }
 }
 
@@ -70,9 +98,7 @@ export function* submitRecoveryCodeEffect(action: Action) {
     const { data } = yield api.post('/auth/passResetCode', action.payload);
     yield put(authActions.submitRecoveryCodeSuccessAction(data));
   } catch (error) {
-    yield put(
-      authActions.authActionFail(error.response.data)
-    );
+    yield put(authActions.authActionFail(error.response.data));
   }
 }
 
@@ -81,10 +107,64 @@ export function* resetPasswordEffect(action: Action) {
     const { data } = yield api.post('/auth/resetPass', action.payload);
     yield put(authActions.resetPasswordSuccessAction(data));
   } catch (error) {
-    yield put(
-      authActions.authActionFail(error.response.data)
-    );
+    yield put(authActions.authActionFail(error.response.data));
   }
 }
 
-export {};
+export function* searchUsersEffect(action: Action) {
+  try {
+    const { data } = yield api.get('/auth/users?term=' + action.payload);
+    yield put(authActions.searchUsersActionSuccess(data));
+  } catch (error) {
+    yield put(authActions.authActionFail(error.response.data));
+  }
+}
+
+const authEffects = [
+  {
+    action: authActions.CHECK_AUTHENTICATED,
+    effect: checkAuthenticatedEffect,
+  },
+  {
+    action: authActions.LOGIN_USER,
+    effect: loginUserEffect,
+  },
+  {
+    action: authActions.REGISTER_USER,
+    effect: registerUserEffect,
+  },
+  {
+    action: authActions.SEND_VERIFICATION_CODE,
+    effect: sendVerificationCodeEffect
+  },
+  {
+    action: authActions.VERIFY_CODE,
+    effect: verifyCodeEffect
+  },
+  {
+    action: authActions.UPDATE_USER,
+    effect: updateUserEffect,
+  },
+  {
+    action: authActions.LOGOUT_USER,
+    effect: logoutUserEffect,
+  },
+  {
+    action: authActions.SEND_RECOVERY_CODE,
+    effect: sendRecoveryCodeEffect,
+  },
+  {
+    action: authActions.SUBMIT_RECOVERY_CODE,
+    effect: submitRecoveryCodeEffect,
+  },
+  {
+    action: authActions.RESET_PASSWORD,
+    effect: resetPasswordEffect,
+  },
+  {
+    action: authActions.SEARCH_USERS,
+    effect: searchUsersEffect,
+  },
+];
+
+export default authEffects;

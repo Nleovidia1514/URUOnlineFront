@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
-import { Sidenav, Nav, Dropdown, Icon, IconButton } from 'rsuite';
+import { useSelector } from 'react-redux';
+import { Sidenav, Nav, Icon, IconButton } from 'rsuite';
+import { AppState } from '../../../store/reducers';
 
 import './SideNav.css';
 
@@ -9,6 +11,7 @@ interface SideNavProps {
 }
 
 export default (props: SideNavProps) => {
+  const currentUser = useSelector((state: AppState) => state.auth.currentUser);
   const [expanded, setExpanded] = useState(true);
   return (
     <div style={{ width: '250px', height: '92%' }}>
@@ -24,20 +27,14 @@ export default (props: SideNavProps) => {
               Posts
             </Nav.Item>
             <Nav.Item eventKey='2' icon={<Icon icon='group' />}>
-              Asignaciones
+              Cursos
             </Nav.Item>
-            <Dropdown
-              placement='rightStart'
-              eventKey='3'
-              title='Advanced'
-              icon={<Icon icon='magic' />}
-            >
-              <Dropdown.Item eventKey='3-1'>Geo</Dropdown.Item>
-              <Dropdown.Item eventKey='3-2'>Devices</Dropdown.Item>
-              <Dropdown.Item eventKey='3-3'>Loyalty</Dropdown.Item>
-              <Dropdown.Item eventKey='3-4'>Visit Depth</Dropdown.Item>
-            </Dropdown>
-            <Dropdown
+            {currentUser?.type === 'professor' ? (
+              <Nav.Item eventKey='3' icon={<Icon icon='file-text' />}>
+                Examenes
+              </Nav.Item>
+            ) : null}
+            {/* <Dropdown
               placement='rightStart'
               eventKey='4'
               title='Settings'
@@ -50,7 +47,7 @@ export default (props: SideNavProps) => {
                 <Dropdown.Item eventKey='4-5-1'>Action Name</Dropdown.Item>
                 <Dropdown.Item eventKey='4-5-2'>Action Params</Dropdown.Item>
               </Dropdown.Menu>
-            </Dropdown>
+            </Dropdown> */}
           </Nav>
         </Sidenav.Body>
         <IconButton

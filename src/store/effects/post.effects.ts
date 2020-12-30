@@ -88,6 +88,7 @@ export function* searchCommentsEffect(action: Action) {
 export function* createCommentEffect(action: Action) {
   try {
     const { data } = yield api.post('/posts/comments', action.payload);
+    data.comment.votes = 0;
     yield put(
       postActions.createCommentSuccessAction({
         message: data.message,
@@ -101,7 +102,7 @@ export function* createCommentEffect(action: Action) {
 
 export function* deleteCommentEffect(action: Action) {
   try {
-    const { data } = yield api.delete(
+    yield api.delete(
       '/post/comments?commentId=' + action.payload
     );
     // yield put(postActions.deleteCommentSuccessAction(data));
@@ -137,3 +138,52 @@ export function* downvoteCommentEffect(action: Action) {
     yield put(postActions.postFailedAction(error));
   }
 }
+
+const postEffects = [
+  {
+    action: postActions.SEARCH_POSTS,
+    effect: searchPostsEffect
+  },
+  {
+    action: postActions.SEARCH_POST_BY_ID,
+    effect: searchPostByIdEffect
+  },
+  {
+    action: postActions.CREATE_POST,
+    effect: createPostEffect
+  },
+  {
+    action: postActions.UPDATE_POST,
+    effect: updatePost
+  },
+  {
+    action: postActions.DELETE_POST,
+    effect: deletePostEffect
+  },
+  {
+    action: postActions.UPVOTE_POST,
+    effect: upvotePostEffect
+  },
+  {
+    action: postActions.DOWNVOTE_POST,
+    effect: downvotePostEffect
+  },
+  {
+    action: postActions.SEARCH_COMMENTS,
+    effect: searchCommentsEffect
+  },
+  {
+    action: postActions.CREATE_COMMENT,
+    effect: createCommentEffect
+  },
+  {
+    action: postActions.UPVOTE_COMMENT,
+    effect: upvoteCommentEffect
+  },
+  {
+    action: postActions.DOWNVOTE_COMMENT,
+    effect: downvoteCommentEffect
+  }
+];
+
+export default postEffects;

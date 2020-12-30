@@ -1,13 +1,11 @@
 import axios from 'axios';
+import environment from './environment';
 
 
 const api = axios.create({
-    baseURL: 'http://localhost:3000'
+    baseURL: environment.API_BASE
 });
 
-// const api = axios.create({
-//     baseURL: ''
-// });
 api.defaults.withCredentials = true;
 
 export default api;
