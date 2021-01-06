@@ -37,7 +37,6 @@ export default ({ show, close }: CreateCourseModalProps) => {
   let form = useRef<any>(null);
   let uploader = useRef<any>(null);
   const currentUser = useSelector((state: AppState) => state.auth.currentUser);
-  const course = useSelector((state: AppState) => state.courses.currentCourse);
 
   const resetForm = useCallback(() => {
     setFormValue(initialValue);
@@ -81,10 +80,11 @@ export default ({ show, close }: CreateCourseModalProps) => {
             <Row>
               <Col mdOffset={8} md={8}>
                 <ImageUploader
-                  action={encodeURIComponent(`${environment.API_BASE}/courses/uploadCourseImg?courseName=${course?.name}`)}
+                  action={`${environment.API_BASE}/courses/uploadCourseImg?courseName=${encodeURIComponent(formValue.name)}`}
                   onSuccessUpload={handleUploadSuccess}
                   autoupload={false}
                   uploaderRef={uploader}
+                  onErrorUpload={err => console.log(err)}
                 ></ImageUploader>
               </Col>
             </Row>
