@@ -2,6 +2,7 @@ import React, { useCallback, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Button, ControlLabel, Input, Modal } from 'rsuite';
 import FileUploader from '../../../../../core/components/controls/FileUploader';
+import environment from '../../../../../core/environment';
 import { DeliveredAssignation } from '../../../../../core/models/DeliveredAssignation.model';
 import { Exam } from '../../../../../core/models/Exam.model';
 import { createDeliveredAssignationAction } from '../../../../../store/actions/course.action';
@@ -107,7 +108,7 @@ export default ({ show, close }: CreateDeliveredModalProps) => {
             )
           ) : null}
           <FileUploader
-            action='/attachments/upload'
+            action={environment.API_BASE + '/attachments/upload'}
             onUploadSuccess={handleUploadSuccess}
             uploaderRef={uploader}
           />

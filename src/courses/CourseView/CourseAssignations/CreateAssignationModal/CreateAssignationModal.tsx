@@ -20,6 +20,7 @@ import { Course } from '../../../../core/models/Course.model';
 import Input from '../../../../core/components/controls/Input';
 import { AppState } from '../../../../store/reducers';
 import { getExamsAction } from '../../../../store/actions/exam.actions';
+import environment from '../../../../core/environment';
 
 export interface CreateAssignationModal {
   show: boolean;
@@ -171,7 +172,7 @@ export default ({ show, close, course }: CreateAssignationModal) => {
             <Row>
               <ControlLabel>Archivos adjuntos</ControlLabel>
               <FileUploader
-                action={'/attachments/upload'}
+                action={environment.API_BASE + '/attachments/upload'}
                 uploaderRef={uploader}
                 onUploadSuccess={handleUploadSuccess}
               ></FileUploader>
