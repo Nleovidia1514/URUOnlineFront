@@ -1,6 +1,6 @@
 import React, { useCallback, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Alert, Button, Col, Container, Divider, Grid } from 'rsuite';
+import { Alert, Button, Container, Divider, FlexboxGrid } from 'rsuite';
 import VerifyCodeModal from '../auth/VerifyCodeModal/VerifyCodeModal';
 import ImageUploader from '../core/components/controls/ImageUploader';
 import environment from '../core/environment';
@@ -103,9 +103,9 @@ export default () => {
         phoneNumber={basicInfoValue.phoneNumber}
         onCancel={() => setShowVerify(false)}
       />
-      <Grid style={{ height: '100%' }}>
-        <Col
-          sm={8}
+      <FlexboxGrid style={{ height: '100%', margin: 0 }}>
+        <FlexboxGrid.Item
+          colspan={8}
           style={{
             height: '100%',
             display: 'flex',
@@ -122,9 +122,9 @@ export default () => {
           <h4 style={{ marginTop: 20 }}>
             {currentUser.name} {currentUser.lastname}
           </h4>
-          <Grid style={{ width: '100%', marginTop: 30 }}>
-            <Col
-              sm={11}
+          <FlexboxGrid style={{ width: '100%', marginTop: 30 }}>
+            <FlexboxGrid.Item
+              colspan={11}
               style={{
                 display: 'flex',
                 justifyContent: 'center',
@@ -134,12 +134,12 @@ export default () => {
             >
               <h5>{0}</h5>
               posts
-            </Col>
-            <Col sm={2} style={{ height: '100%' }}>
+            </FlexboxGrid.Item>
+            <FlexboxGrid.Item colspan={2} style={{ height: '100%' }}>
               <Divider vertical style={{ height: '100%' }} />
-            </Col>
-            <Col
-              sm={11}
+            </FlexboxGrid.Item>
+            <FlexboxGrid.Item
+              colspan={11}
               style={{
                 display: 'flex',
                 justifyContent: 'center',
@@ -149,16 +149,16 @@ export default () => {
             >
               <h5>{currentUser.rating}</h5>
               puntuacion
-            </Col>
-          </Grid>
-        </Col>
-        <Col
-          sm={2}
+            </FlexboxGrid.Item>
+          </FlexboxGrid>
+        </FlexboxGrid.Item>
+        <FlexboxGrid.Item
+          colspan={2}
           style={{ height: '100%', display: 'flex', justifyContent: 'center' }}
         >
           <Divider style={{ height: '100%' }} vertical />
-        </Col>
-        <Col sm={14}>
+        </FlexboxGrid.Item>
+        <FlexboxGrid.Item colspan={14}>
           <Container
             style={{
               display: 'flex',
@@ -207,8 +207,8 @@ export default () => {
             value={externalLinksValue}
             setValue={setExternalLinksValue}
           />
-        </Col>
-      </Grid>
+        </FlexboxGrid.Item>
+      </FlexboxGrid>
     </Container>
   );
 };

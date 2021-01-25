@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { Avatar, Badge, FlexboxGrid, Tag, TagGroup } from 'rsuite';
 import { Post } from '../../../core/models/Post.model';
 import moment from 'moment';
+import './PostSummary.css'
 
 interface PostSummaryProps {
   post: Post;

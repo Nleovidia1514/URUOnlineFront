@@ -50,7 +50,7 @@ export default (props: RouteComponentProps<AuthLayoutProps>) => {
   }
 
   return (
-    <Container style={{ height: '100%' }}>
+    <Container style={{ height: '100%', overflow: 'auto' }}>
       <VerifyCodeModal
         title='Autenticacion multi factor'
         show={showVerify}

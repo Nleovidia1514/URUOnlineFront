@@ -13,9 +13,8 @@ import {
   Col,
   Container,
   Divider,
+  FlexboxGrid,
   Form,
-  Grid,
-  Row,
   Schema,
 } from 'rsuite';
 import Input from '../../core/components/controls/Input';
@@ -65,140 +64,144 @@ interface ExamViewerProps {
   readonly?: boolean;
 }
 
-export default forwardRef(({ fetchExam = true, readonly }: ExamViewerProps, ref) => {
-  const dispatch = useDispatch();
-  const currentExam = useSelector((state: AppState) => state.exams.currentExam);
-  const currentUser = useSelector((state: AppState) => state.auth.currentUser);
-  const loading = useSelector((state: AppState) => state.exams.loading);
+export default forwardRef(
+  ({ fetchExam = true, readonly }: ExamViewerProps, ref) => {
+    const dispatch = useDispatch();
+    const currentExam = useSelector(
+      (state: AppState) => state.exams.currentExam
+    );
+    const currentUser = useSelector(
+      (state: AppState) => state.auth.currentUser
+    );
+    const loading = useSelector((state: AppState) => state.exams.loading);
 
-  const initialValue = {
-    label: '',
-    type: '',
-    options: [],
-    order: 1,
-  };
-  const [formValue, setFormValue] = useState(initialValue);
-  const form = useRef<any>(null);
+    const initialValue = {
+      label: '',
+      type: '',
+      options: [],
+      order: 1,
+    };
+    const [formValue, setFormValue] = useState(initialValue);
+    const form = useRef<any>(null);
 
-  const [answerFormValue, setAnswerFormValue] = useState({});
-  const [answerModel, setAnswerModel] = useState({});
-  const answerForm = useRef<any>(null);
+    const [answerFormValue, setAnswerFormValue] = useState({});
+    const [answerModel, setAnswerModel] = useState({});
+    const answerForm = useRef<any>(null);
 
-  useEffect(() => {
-    const auxModel = {};
+    useEffect(() => {
+      const auxModel = {};
 
-    currentExam?.questions.forEach((x) => {
-      switch (x.type) {
-        case 'select':
-        case 'textarea':
-          auxModel[x.order] = StringType(
-            'Por favor ingrese una respuesta valida'
-          ).isRequired('Este campo es obligatorio.');
-          break;
-        case 'boolean':
-          auxModel[x.order] = BooleanType(
-            'Por favor ingrese una respuesta valida'
-          ).isRequired('Este campo es obligatorio');
-          break;
-        default:
-          break;
-      }
-    });
-    setAnswerModel(auxModel);
-  }, [currentExam]);
-
-  const { id } = useParams() as any;
-
-  useEffect(() => {
-    if (!fetchExam) return;
-    dispatch(getExamsAction(id));
-  }, [dispatch, id, fetchExam]);
-
-  const saveExamQuestion = useCallback(() => {
-    if (form.current.check()) {
-      if (formValue.type === 'boolean') {
-        dispatch(
-          addExamQuestion({
-            ...formValue,
-            type: 'select',
-            options: ['Verdadero', 'Falso'],
-            exam: currentExam?._id,
-          })
-        );
-      } else {
-        dispatch(
-          addExamQuestion({
-            ...formValue,
-            exam: currentExam?._id,
-          })
-        );
-      }
-      setFormValue(initialValue);
-    }
-  }, [dispatch, formValue, currentExam, initialValue]);
-
-  useImperativeHandle(ref, () => ({
-    sendExamAnswers: () => {
-      if (answerForm.current.check() && answerFormValue !== undefined) {
-        const answers: DeliveredExamAnswer[] = [];
-        for (const key in answerFormValue) {
-          const element = answerFormValue[key];
-          answers.push({
-            question: parseInt(key),
-            value: element,
-          });
+      currentExam?.questions.forEach((x) => {
+        switch (x.type) {
+          case 'select':
+          case 'textarea':
+            auxModel[x.order] = StringType(
+              'Por favor ingrese una respuesta valida'
+            ).isRequired('Este campo es obligatorio.');
+            break;
+          case 'boolean':
+            auxModel[x.order] = BooleanType(
+              'Por favor ingrese una respuesta valida'
+            ).isRequired('Este campo es obligatorio');
+            break;
+          default:
+            break;
         }
-        const delivered = {
-          exam: currentExam._id,
-          owner: currentUser._id,
-          answers,
-        } as DeliveredExam;
-        dispatch(createDeliveredExamAction(delivered));
-      }
-    },
-    setExamAnswers: (answers: DeliveredExamAnswer[]) => {
-      const answerValue = {};
-      answers.forEach((a) => {
-        answerValue[a.question] = a.value;
       });
+      setAnswerModel(auxModel);
+    }, [currentExam]);
 
-      setAnswerFormValue(answerValue);
-    },
-  }));
+    const { id } = useParams() as any;
 
-  return (
-    <Container>
-      <h1>{currentExam?.name}</h1>
-      <Divider />
-      {currentUser?.type === 'professor' && !readonly ? (
-        <>
-          <Form
-            ref={form}
-            onChange={setFormValue}
-            formValue={formValue}
-            model={model}
-            fluid
-          >
-            <Grid>
-              <Row style={{ marginBottom: 30 }}>
-                <Col sm={6}>
+    useEffect(() => {
+      if (!fetchExam) return;
+      dispatch(getExamsAction(id));
+    }, [dispatch, id, fetchExam]);
+
+    const saveExamQuestion = useCallback(() => {
+      if (form.current.check()) {
+        if (formValue.type === 'boolean') {
+          dispatch(
+            addExamQuestion({
+              ...formValue,
+              type: 'select',
+              options: ['Verdadero', 'Falso'],
+              exam: currentExam?._id,
+            })
+          );
+        } else {
+          dispatch(
+            addExamQuestion({
+              ...formValue,
+              exam: currentExam?._id,
+            })
+          );
+        }
+        setFormValue(initialValue);
+      }
+    }, [dispatch, formValue, currentExam, initialValue]);
+
+    useImperativeHandle(ref, () => ({
+      sendExamAnswers: () => {
+        if (answerForm.current.check() && answerFormValue !== undefined) {
+          const answers: DeliveredExamAnswer[] = [];
+          for (const key in answerFormValue) {
+            const element = answerFormValue[key];
+            answers.push({
+              question: parseInt(key),
+              value: element,
+            });
+          }
+          const delivered = {
+            exam: currentExam._id,
+            owner: currentUser._id,
+            answers,
+          } as DeliveredExam;
+          dispatch(createDeliveredExamAction(delivered));
+        }
+      },
+      setExamAnswers: (answers: DeliveredExamAnswer[]) => {
+        const answerValue = {};
+        answers.forEach((a) => {
+          answerValue[a.question] = a.value;
+        });
+
+        setAnswerFormValue(answerValue);
+      },
+    }));
+
+    return (
+      <Container>
+        <h1>{currentExam?.name}</h1>
+        <Divider />
+        {currentUser?.type === 'professor' && !readonly ? (
+          <>
+            <Form
+              ref={form}
+              onChange={setFormValue}
+              formValue={formValue}
+              model={model}
+              fluid
+            >
+              <FlexboxGrid style={{ marginBottom: 30 }}>
+                <FlexboxGrid.Item componentClass={Col} colspan={6} sm={8}>
                   <Input
                     label='Enunciado'
                     name='label'
                     type='textarea'
                     rows={5}
                   />
-                </Col>
-                <Col sm={5} smOffset={1}>
+                </FlexboxGrid.Item>
+                <FlexboxGrid.Item componentClass={Col} colspan={5} smOffset={1} sm={8}>
                   <Input
                     label='Tipo'
                     name='type'
                     type='select'
                     data={questionTypes}
                   />
-                </Col>
+                </FlexboxGrid.Item>
                 {formValue.type === 'select' ? (
-                  <Col sm={5} smOffset={1}>
+                  <FlexboxGrid.Item componentClass={Col} colspan={5} smOffset={1} sm={8}>
                     <Input
                       label='Opciones'
                       name='options'
@@ -206,14 +209,14 @@ export default forwardRef(({ fetchExam = true, readonly }: ExamViewerProps, ref)
                       data={[]}
                       placeholder='Agregue opciones'
                     />
-                  </Col>
+                  </FlexboxGrid.Item>
                 ) : null}
-                <Col sm={4} smOffset={1}>
+                <FlexboxGrid.Item componentClass={Col} colspan={4} smOffset={1}>
                   <Input label='Orden' name='order' type='number' />
-                </Col>
-              </Row>
-              <Row>
-                <Col sm={4}>
+                </FlexboxGrid.Item>
+              </FlexboxGrid>
+              <FlexboxGrid>
+                <FlexboxGrid.Item componentClass={Col} colspan={4} sm={8}>
                   <Button
                     color='blue'
                     onClick={saveExamQuestion}
@@ -222,8 +225,8 @@ export default forwardRef(({ fetchExam = true, readonly }: ExamViewerProps, ref)
                   >
                     Agregar pregunta
                   </Button>
-                </Col>
-                <Col sm={4} smOffset={1}>
+                </FlexboxGrid.Item>
+                <FlexboxGrid.Item componentClass={Col} colspan={4} smOffset={1} sm={8}>
                   <Button
                     color='red'
                     onClick={() => setFormValue(initialValue)}
@@ -231,31 +234,31 @@ export default forwardRef(({ fetchExam = true, readonly }: ExamViewerProps, ref)
                   >
                     Cancelar
                   </Button>
-                </Col>
-              </Row>
-            </Grid>
-          </Form>
-          <Divider />
-        </>
-      ) : null}
-      <Form
-        ref={answerForm}
-        model={Schema.Model(answerModel)}
-        onChange={setAnswerFormValue}
-        formValue={answerFormValue}
-        fluid
-      >
-        {currentExam?.questions
-          .sort((a, b) => a.order - b.order)
-          .map((x, index) => (
-            <ExamQuestion
-              readonly={readonly}
-              key={index}
-              question={x}
-              editable={currentUser?._id === currentExam.creator && !readonly}
-            />
-          ))}
-      </Form>
-    </Container>
-  );
-});
+                </FlexboxGrid.Item>
+              </FlexboxGrid>
+            </Form>
+            <Divider />
+          </>
+        ) : null}
+        <Form
+          ref={answerForm}
+          model={Schema.Model(answerModel)}
+          onChange={setAnswerFormValue}
+          formValue={answerFormValue}
+          fluid
+        >
+          {currentExam?.questions
+            .sort((a, b) => a.order - b.order)
+            .map((x, index) => (
+              <ExamQuestion
+                readonly={readonly}
+                key={index}
+                question={x}
+                editable={currentUser?._id === currentExam.creator && !readonly}
+              />
+            ))}
+        </Form>
+      </Container>
+    );
+  }
+);

@@ -30,7 +30,7 @@ export default ({ post }: ViewPostHeaderProps) => {
   }, [post, dispatch]);
 
   return (
-    <Container style={{ maxHeight: '100px' }}>
+    <Container style={{ maxHeight: 200 }}>
       <FlexboxGrid align='middle'>
         <FlexboxGrid.Item colspan={20} order={1}>
           <h1>{post?.title}</h1>

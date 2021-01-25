@@ -6,7 +6,11 @@
 }
 
 .form-panel {
-    align-self: center;
-    background-color: white;
-    color: black;
+  align-self: center;
+  background-color: white;
+  color: black;
+}
+
+@media (max-width: 500px) {
+
 }

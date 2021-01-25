@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { Sidenav, Nav, Icon, IconButton } from 'rsuite';
+import { Sidenav, Nav, Icon } from 'rsuite';
 import { AppState } from '../../../store/reducers';
 
 import './SideNav.css';
@@ -12,9 +12,23 @@ interface SideNavProps {
 
 export default (props: SideNavProps) => {
   const currentUser = useSelector((state: AppState) => state.auth.currentUser);
-  const [expanded, setExpanded] = useState(true);
+  const [expanded, setExpanded] = useState(false);
+  useEffect(() => {
+    if (window.innerWidth > 1000) {
+      setExpanded(true);
+    } else {
+      setExpanded(false);
+    }
+    window.addEventListener('resize', () => {
+      if (window.innerWidth > 1000) {
+        setExpanded(true);
+      } else {
+        setExpanded(false);
+      }
+    });
+  }, []);
   return (
-    <div style={{ width: '250px', height: '92%' }}>
+    <div style={{ height: '92%' }}>
       <Sidenav
         expanded={expanded}
         activeKey={props.activeKey}
@@ -50,7 +64,7 @@ export default (props: SideNavProps) => {
             </Dropdown> */}
           </Nav>
         </Sidenav.Body>
-        <IconButton
+        {/* <IconButton
           className='collapse-btn'
           onClick={() => setExpanded(!expanded)}
           icon={
@@ -59,7 +73,7 @@ export default (props: SideNavProps) => {
             />
           }
           size='lg'
-        ></IconButton>
+        ></IconButton> */}
       </Sidenav>
     </div>
   );

@@ -66,7 +66,7 @@ export default ({ show, close }: CreateCourseModalProps) => {
       }}
     >
       <Modal.Header>
-        <Modal.Title>Crear nueva asignacion</Modal.Title>
+        <Modal.Title>Crear nuevo curso</Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <Form

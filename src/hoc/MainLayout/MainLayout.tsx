@@ -50,8 +50,8 @@ export default (props: MainLayoutProps) => {
   return (
     <>
       <Navbar onSelect={handleSelect}></Navbar>
-      <Container style={{ height: '92%' }}>
-        <Sidebar style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
+      <Container style={{ height: '89%' }}>
+        <Sidebar style={{ flex: 0, minHeight: '100vh', width: 'auto' }}>
           <SideNav activeKey={activeKey} handleSelect={handleSelect}></SideNav>
         </Sidebar>
         <Container style={{ padding: '20px', overflow: 'auto' }}>
