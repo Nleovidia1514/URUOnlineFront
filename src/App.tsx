@@ -35,9 +35,6 @@ function App() {
     dispatch(coreActions.setRedirectAction(''));
     history.push(redirectUri);
   }
-
-  // Culo de siria
-  
   return (
     <div className='App'>
       <div className={mainclasses.join(' ')}>
